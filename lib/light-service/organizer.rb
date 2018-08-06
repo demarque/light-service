@@ -30,6 +30,10 @@ module LightService
           @after_actions = nil
         end
 
+        if @static_after_actions
+          data[:_static_after_actions] = @static_after_actions.dup
+        end
+
         WithReducerFactory.make(self).with(data)
       end
 
@@ -82,6 +86,12 @@ module LightService
       # but it's used as a macro in the Organizer
       def after_actions(*logic)
         self.after_actions = logic
+      end
+
+      # This looks like an accessor,
+      # but it's used as a macro in the Organizer
+      def static_after_actions(*logic)
+        @static_after_actions = [logic].flatten
       end
 
       def after_actions=(logic)
