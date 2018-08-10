@@ -25,6 +25,10 @@ module LightService
           @before_actions = nil
         end
 
+        if @static_before_actions
+          data[:_static_before_actions] = @static_before_actions.dup
+        end
+
         if @after_actions
           data[:_after_actions] = @after_actions.dup
           @after_actions = nil
@@ -71,6 +75,12 @@ module LightService
       # but it's used as a macro in the Organizer
       def before_actions(*logic)
         self.before_actions = logic
+      end
+
+      # This looks like an accessor,
+      # but it's used as a macro in the Organizer
+      def static_before_actions(*logic)
+        @static_before_actions = [logic].flatten
       end
 
       def before_actions=(logic)

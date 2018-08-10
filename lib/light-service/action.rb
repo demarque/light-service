@@ -43,6 +43,7 @@ module LightService
 
             catch(:jump_when_failed) do
               call_before_action(action_context)
+              call_static_before_action(action_context)
               yield(action_context)
               call_static_after_action(action_context)
               call_after_action(action_context)
@@ -76,6 +77,10 @@ module LightService
 
       def call_before_action(context)
         invoke_callbacks(context[:_before_actions], context)
+      end
+
+      def call_static_before_action(context)
+        invoke_callbacks(context[:_static_before_actions], context)
       end
 
       def call_after_action(context)
